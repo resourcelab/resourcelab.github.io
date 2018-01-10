@@ -1,0 +1,29 @@
+# Site settings
+title: Resource Lab
+email:
+description: > # this means to ignore newlines until "baseurl:"
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "" # the base hostname & protocol for your site
+
+# User setting
+owner: Resource Lab
+email: kontakt@resourcelab.dk
+facebook_username: resourcelabdk
+twitter_username: resourcelabdk
+github_username: resourcelabdk
+address: Vasbygade 26
+location: København Denmark
+  # - line: København
+  # - line: Denmark
+  # Feel free to add more lines here 
+telephone: '+4553832274'
+copyright: '2017'
+
+# API settings
+google_api_key: AIzaSyAjnBu5LbKukOfx2_Kf9ReeEI_GG8kbMF8
+
+# Build settings
+markdown: kramdown
