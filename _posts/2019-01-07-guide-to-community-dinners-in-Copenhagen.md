@@ -2,9 +2,9 @@
 layout: post
 title:  "Guide to Copenhagens Community Dinners 2019"
 author: sal
-categories: [ Sustainable Living, Pollution, Oceans ]
+categories: [ Sustainable Living, Community Kitchen, Copenhagen ]
 image: assets/images/communitydinner.jpg
-featured: true
+featured: false
 hidden: false
 ---
 

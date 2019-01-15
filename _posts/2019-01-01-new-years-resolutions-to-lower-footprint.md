@@ -4,7 +4,7 @@ title:  "12 New years resolutions to lower your environmental footprint"
 author: sal
 categories: [ Sustainable Living, Pollution, Oceans ]
 image: assets/images/newyears.jpg
-featured: true
+featured: false
 hidden: false
 ---
 
