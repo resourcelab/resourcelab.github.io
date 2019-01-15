@@ -1,29 +1,50 @@
-# Site settings
-title: Resource Lab
-email:
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "" # the base hostname & protocol for your site
+# Site
+name: "Resource Lab"
+description: "Intelligent management of resources through technology and the methods of science with human and environmental concern."
+meta_description: "Jekyll template, Medium styled, free for bloggers."
+logo: 'assets/images/rlogocopy.png'
+favicon: 'assets/images/rlfav.png'
+baseurl:
+google_analytics: 'UA-46278016-1'
+disqus: 'resourcelab'
+mailchimp-list: 'https://resourcelab.us20.list-manage.com/subscribe/post?u=e552c6b1e8644f6ad437649af&amp;id=c016c9b81e'
 
-# User setting
-owner: Resource Lab
-email: kontakt@resourcelab.dk
-facebook_username: resourcelabdk
-twitter_username: resourcelabdk
-github_username: resourcelabdk
-address: Vasbygade 26
-location: København Denmark
-  # - line: København
-  # - line: Denmark
-  # Feel free to add more lines here 
-telephone: '+4553832274'
-copyright: '2017'
+# Authors
+authors:
+  sal:
+    name: Lionardo
+    display_name: Lionardo
+    gravatar: a89e66bfc54a946279dbfaf29cf46865
+    email: lb@resourcelab.dk
+    web: https://www.resourcelab.dk
+    twitter: https://twitter.com/lionardobayer
+    description: "Founder of Resource Lab. Environmentalist interested in using science and technology to solve the most pressing problems facing humanity."
+  john:
+    name: John
+    display_name: John
+    gravatar: b1cc14991db7a456fcd761680bbc8f81
+    email: wowthemesnet@gmail.com
+    web: https://www.resourcelab.dk
+    twitter: https://twitter.com/wowthemesnet
+    description: "This is the author box. Write a short description of the author here. You are currently previewing Mediumish demo, a Jekyll template compatible with Github pages."
 
-# API settings
-google_api_key: AIzaSyAjnBu5LbKukOfx2_Kf9ReeEI_GG8kbMF8
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-archives
 
-# Build settings
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+
+# Pagination
+paginate: 9
+paginate_path: /page:num/
+
+# Other
 markdown: kramdown
+highlighter: rouge
