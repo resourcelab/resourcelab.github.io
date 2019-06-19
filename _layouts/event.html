@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<!-- <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
+
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+</article> -->
+
+<h1>Events</h1>
+
+<ul>
+  {% for event in site.events %}
+    <li>
+      <h2>{{ event.title }}</h2>
+      <h3>{{ event.date }}</h3>
+    </li>
+  {% endfor %}
+</ul>
