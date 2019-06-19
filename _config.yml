@@ -9,6 +9,21 @@ google_analytics: 'UA-133726414-1'
 disqus: 'resourcelab'
 mailchimp-list: 'https://resourcelab.us20.list-manage.com/subscribe/post?u=e552c6b1e8644f6ad437649af&amp;id=c016c9b81e'
 
+# Collections
+collections:
+  events:
+    output: true
+    permalink: /events/:path/
+    title: Events
+  workshops:
+    output: true
+    permalink: /workshops/:path/
+    title: Workshops
+  projects:
+    output: true
+    permalink: /projects/:path/
+    title: Projects
+
 # Authors
 authors:
   sal:
@@ -42,7 +57,7 @@ jekyll-archives:
     category: '/category/:name/'
 
 # Pagination
-paginate: 9
+paginate: 6
 paginate_path: /page:num/
 
 # Other
