@@ -1,114 +1,1373 @@
----
-layout: default
-title: Home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource Lab — Experimental Hub for the Resource Based Economy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-{% if page.url == "/" %}
+    :root {
+      --bg-deep:    #040d1a;
+      --bg-mid:     #071426;
+      --bg-card:    #0a1d36;
+      --cyan:       #ccdcf5;
+      --cyan-dim:   #8aaad4;
+      --gold:       #ff8c42;
+      --gold-dim:   #cc5e1a;
+      --text-main:  #c8ddf0;
+      --text-muted: #6a8aaa;
+      --border:     rgba(204,220,245,0.15);
+      --glow:       0 0 30px rgba(204,220,245,0.25);
+    }
 
-<!-- Featured
-================================================== -->
-<!-- <section class="featured-posts">
-    <div class="section-title">
-        <h2><span>Featured</span></h2>
-    </div>
-    <div class="row">
+    body {
+      background: var(--bg-deep);
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
 
-    {% for post in site.posts %}
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 4rem;
+      background: rgba(4,13,26,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
 
-        {% if post.featured == true %}
+    .nav-logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
 
-            {% include featuredbox.html %}
+    .nav-logo span { color: var(--gold); }
 
-        {% endif %}
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
 
-    {% endfor %}
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: 'Orbitron', monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
 
-    </div>
-</section> -->
+    .nav-links a:hover { color: var(--cyan); }
 
-{% endif %}
+    /* ── Hero ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
 
-<!-- Charity Donation Box -->
-<!-- <div class="w3-container">
+    /* Blueprint background canvas */
+    #blueprint-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.38;
+    }
 
-  <script src="https://donorbox.org/widget.js" paypalExpress="false"></script><iframe src="https://donorbox.org/embed/vegansk-folkekokken?show_content=true" height="685px" width="100%" style="max-width:100%; min-width:100%; max-height:none!important" seamless="seamless" name="donorbox" frameborder="0" scrolling="no" allowpaymentrequest></iframe>
+    /* Dark gradient vignette over canvas */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 50% 50%, transparent 20%, var(--bg-deep) 80%),
+        linear-gradient(to bottom, rgba(4,13,26,0.55) 0%, transparent 30%, transparent 70%, var(--bg-deep) 100%);
+    }
 
-</div> -->
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 2rem;
+    }
 
-<!-- Check out quickpay -->
+    .hero-eyebrow {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
 
-<!-- https://quickpay.net/uk/pricing# -->
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 1px;
+      background: var(--cyan);
+      opacity: 0.6;
+    }
 
-<!-- Div pox for workshops -->
-<!--
-<div class="abcontainer">
+    blockquote.hero-quote {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+      font-weight: 300;
+      line-height: 1.45;
+      color: #e8f4ff;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
 
-	<h1 class="abheading">Sign up for a Workshop <span>& Learn something new</span></h1>
+    blockquote.hero-quote em {
+      font-style: normal;
+      color: var(--gold);
+    }
 
-	<div class="abgallery">
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="{{ site.baseurl }}/assets/images/tempehw.jpg" alt="person writing in a notebook beside by an iPad, laptop, printed photos, spectacles, and a cup of coffee on a saucer">
-      <div class="aptext-block">
-        <h4>Tempeh Workshop</h4>
-        <p>Make your own, easy and delicious</p>
+    .hero-attribution {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 3.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--bg-deep);
+      border: 1px solid var(--cyan);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--cyan);
+      box-shadow: var(--glow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(100,160,200,0.3);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--text-muted);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      animation: bob 2.5s ease-in-out infinite;
+    }
+
+    .scroll-indicator svg { opacity: 0.5; }
+
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── Section Commons ── */
+    section { padding: 7rem 0; }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .section-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.9rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      color: #e8f4ff;
+      margin-bottom: 1.2rem;
+      line-height: 1.25;
+    }
+
+    .section-intro {
+      max-width: 640px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 4rem;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(to right, var(--cyan), transparent);
+      margin-bottom: 1.8rem;
+    }
+
+    /* ── About ── */
+    #about {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-ring-svg {
+      width: 100%;
+      max-width: 400px;
+      opacity: 0.85;
+      animation: slowspin 40s linear infinite;
+    }
+
+    @keyframes slowspin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .about-text .section-intro { margin-bottom: 2rem; }
+
+    .pillar-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .pillar-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .pillar-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--cyan);
+      margin-top: 2px;
+    }
+
+    /* ── Projects ── */
+    #projects { background: var(--bg-deep); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2rem;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(204,220,245,0.4);
+      box-shadow: 0 8px 40px rgba(204,220,245,0.1);
+      transform: translateY(-4px);
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card.featured {
+      grid-column: span 2;
+      border-color: rgba(204,220,245,0.3);
+    }
+
+    .project-card.featured::before { opacity: 1; }
+
+    .project-tag {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      margin-bottom: 1.2rem;
+      display: inline-block;
+    }
+
+    .tag-edu      { background: rgba(204,220,245,0.1);  color: var(--cyan);     border: 1px solid rgba(204,220,245,0.3); }
+    .tag-community{ background: rgba(0,180,100,0.1);  color: #00d48a;         border: 1px solid rgba(0,180,100,0.3); }
+    .tag-sustain  { background: rgba(100,220,60,0.1); color: #84dc3c;         border: 1px solid rgba(100,220,60,0.3); }
+    .tag-build    { background: rgba(255,140,66,0.1); color: var(--gold);     border: 1px solid rgba(255,140,66,0.3); }
+
+    .project-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e8f4ff;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .project-status {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .dot-active  { background: #00d48a; box-shadow: 0 0 6px #00d48a; }
+    .dot-dev     { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+    .dot-concept { background: var(--text-muted); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    .project-link {
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Orbitron', monospace;
+      transition: opacity 0.2s;
+    }
+
+    .project-link:hover { opacity: 0.7; }
+
+    /* ── Get Involved ── */
+    #involved {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .involved-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .involve-card {
+      background: rgba(204,220,245,0.03);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2.2rem;
+      text-align: center;
+      transition: border-color 0.3s;
+    }
+
+    .involve-card:hover { border-color: rgba(204,220,245,0.4); }
+
+    .involve-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .involve-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #e8f4ff;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .involve-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Resources ── */
+    #resources { background: var(--bg-deep); }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.4rem;
+    }
+
+    .resource-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.6rem;
+      text-decoration: none;
+      transition: border-color 0.3s, transform 0.25s;
+    }
+
+    .resource-item:hover {
+      border-color: rgba(204,220,245,0.4);
+      transform: translateX(4px);
+    }
+
+    .resource-icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+    }
+
+    .resource-text h4 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: #e8f4ff;
+      margin-bottom: 0.35rem;
+    }
+
+    .resource-text p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .resource-type {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    /* ── Contact ── */
+    #contact {
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(204,220,245,0.04);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.85rem 1rem;
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--cyan-dim);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    .newsletter-box {
+      background: rgba(255,140,66,0.05);
+      border: 1px solid rgba(255,140,66,0.2);
+      border-radius: 3px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-box h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+
+    .newsletter-box p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .newsletter-row {
+      display: flex;
+      gap: 0.7rem;
+    }
+
+    .newsletter-row input {
+      flex: 1;
+      background: rgba(204,220,245,0.04);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: 'Rajdhani', sans-serif;
+      outline: none;
+    }
+
+    .contact-info { font-size: 0.9rem; color: var(--text-muted); }
+
+    .contact-info p { margin-bottom: 0.75rem; }
+
+    .contact-info a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: all 0.25s;
+    }
+
+    .social-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 0;
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    footer a { color: var(--cyan); text-decoration: none; }
+
+    /* ── Stat strip ── */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 5rem;
+    }
+
+    .stat-item {
+      padding: 2rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--cyan);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.4rem; }
+      .about-grid,
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { order: -1; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; }
+      .involved-grid { grid-template-columns: 1fr; }
+      .resources-grid { grid-template-columns: 1fr; }
+      .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="#hero" class="nav-logo">Resource<span>Lab</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#involved">Get Involved</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <canvas id="blueprint-canvas"></canvas>
+    <div class="hero-vignette"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">Experimental Hub for the Resource Based Economy</div>
+
+      <blockquote class="hero-quote">
+        "The Earth is <em>abundant</em> with plentiful resources. Our practice of
+        rationing resources through <em>monetary methods</em> is irrelevant and
+        counter-productive to our survival."
+      </blockquote>
+
+      <p class="hero-attribution">— Jacque Fresco, Founder of The Venus Project</p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">Explore Projects</a>
+        <a href="#about" class="btn btn-secondary">Our Mission</a>
       </div>
-		</div>
+    </div>
 
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="https://images.unsplash.com/photo-1515260268569-9271009adfdb?w=500&h=500&fit=crop" alt="sunset behind San Francisco city skyline">
-      <div class="aptext-block">
-        <h4>Microgreens </h4>
-        <p>What a beautiful sunrise</p>
+    <div class="scroll-indicator">
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="1.5"/>
+        <rect x="6.5" y="5" width="3" height="6" rx="1.5" fill="currentColor"/>
+      </svg>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-text">
+          <p class="section-label">// 01 — Mission</p>
+          <h2 class="section-title">A Laboratory for a<br/>Post-Scarcity World</h2>
+          <div class="divider"></div>
+          <p class="section-intro">
+            Resource Lab is an experimental hub dedicated to prototyping and launching
+            initiatives that advance the principles of a Resource Based Economy — a
+            society in which science, technology, and genuine human values guide
+            the stewardship of Earth's resources for the benefit of all life.
+          </p>
+          <ul class="pillar-list">
+            <li>
+              <div class="pillar-icon">✦</div>
+              <span><strong>Beyond Money</strong> — Exploring systems where access to resources is decoupled from profit and speculation.</span>
+            </li>
+            <li>
+              <div class="pillar-icon">✦</div>
+              <span><strong>Technology in Service</strong> — Applying science and automation to eliminate drudgery and expand human potential.</span>
+            </li>
+            <li>
+              <div class="pillar-icon">✦</div>
+              <span><strong>Systems Thinking</strong> — Designing holistic solutions that account for ecological, social, and civilisational complexity.</span>
+            </li>
+            <li>
+              <div class="pillar-icon">✦</div>
+              <span><strong>Open Collaboration</strong> — Building openly, sharing freely, and inviting global participation.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="about-visual">
+          <!-- Fresco-inspired blueprint concentric ring diagram -->
+          <svg class="about-ring-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="ringGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stop-color="#ccdcf5" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#ccdcf5" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="200" cy="200" r="190" stroke="#ccdcf5" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.4"/>
+            <circle cx="200" cy="200" r="160" stroke="#ccdcf5" stroke-width="0.8" opacity="0.25"/>
+            <circle cx="200" cy="200" r="130" stroke="#ccdcf5" stroke-width="0.5" stroke-dasharray="2 6" opacity="0.35"/>
+            <circle cx="200" cy="200" r="100" stroke="#ff8c42" stroke-width="1"   opacity="0.3"/>
+            <circle cx="200" cy="200" r="72"  stroke="#ccdcf5" stroke-width="0.5" opacity="0.5"/>
+            <circle cx="200" cy="200" r="46"  stroke="#ccdcf5" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="200" cy="200" r="20"  fill="url(#ringGrad)" stroke="#ccdcf5" stroke-width="1.5" opacity="0.9"/>
+            <!-- Radial spokes -->
+            <line x1="200" y1="10"  x2="200" y2="390" stroke="#ccdcf5" stroke-width="0.4" opacity="0.15"/>
+            <line x1="10"  y1="200" x2="390" y2="200" stroke="#ccdcf5" stroke-width="0.4" opacity="0.15"/>
+            <line x1="55"  y1="55"  x2="345" y2="345" stroke="#ccdcf5" stroke-width="0.4" opacity="0.1"/>
+            <line x1="345" y1="55"  x2="55"  y2="345" stroke="#ccdcf5" stroke-width="0.4" opacity="0.1"/>
+            <!-- Sector marks -->
+            <circle cx="200" cy="40"  r="4" fill="#ccdcf5" opacity="0.6"/>
+            <circle cx="360" cy="200" r="4" fill="#ccdcf5" opacity="0.6"/>
+            <circle cx="200" cy="360" r="4" fill="#ccdcf5" opacity="0.6"/>
+            <circle cx="40"  cy="200" r="4" fill="#ccdcf5" opacity="0.6"/>
+            <!-- Inner details -->
+            <circle cx="200" cy="200" r="190" fill="url(#ringGrad)"/>
+            <!-- Fresco city block sections at r=100 -->
+            <path d="M 200 100 A 100 100 0 0 1 300 200" stroke="#ff8c42" stroke-width="1.5" fill="none" opacity="0.5"/>
+            <path d="M 300 200 A 100 100 0 0 1 200 300" stroke="#ff8c42" stroke-width="1.5" fill="none" opacity="0.3"/>
+          </svg>
+        </div>
+
       </div>
-		</div>
 
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="https://images.unsplash.com/photo-1506045412240-22980140a405?w=500&h=500&fit=crop" alt="people holding umbrellas on a busy street at night lit by street lights and illuminated signs in Tokyo, Japan">
-		</div>
-
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="https://images.unsplash.com/photo-1514041181368-bca62cceffcd?w=500&h=500&fit=crop" alt="car interior from central back seat position showing driver and blurred view through windscreen of a busy road at night">
-		</div>
-
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="https://images.unsplash.com/photo-1445810694374-0a94739e4a03?w=500&h=500&fit=crop" alt="back view of woman wearing a backpack and beanie waiting to cross the road on a busy street at night in New York City, USA">
-		</div>
-
-		<div class="abgallery-item">
-			<img class="abgallery-image" src="https://images.unsplash.com/photo-1486334803289-1623f249dd1e?w=500&h=500&fit=crop" alt="man wearing a black jacket, white shirt, blue jeans, and brown boots, playing a white electric guitar while sitting on an amp">
-		</div>
-
-	</div>
-
-</div> -->
-
-<!-- Posts Index
-================================================== -->
-<section class="recent-posts">
-
-    <div class="section-title">
-
-        <h2><span>All Stories</span></h2>
+      <!-- Stat strip -->
+      <div class="stat-strip">
+        <div class="stat-item">
+          <span class="stat-number">6</span>
+          <span class="stat-label">Active Projects</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">12</span>
+          <span class="stat-label">Collaborators</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4</span>
+          <span class="stat-label">Focus Areas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">Resources Available</span>
+        </div>
+      </div>
 
     </div>
+  </section>
 
-    <div class="row listrecent">
-<!-- 
-        {% for post in paginator.posts %}
+  <!-- ── Projects ── -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">// 02 — Projects</p>
+      <h2 class="section-title">Initiatives in Motion</h2>
+      <div class="divider"></div>
+      <p class="section-intro">
+        Each project at Resource Lab is a live experiment — a step toward demonstrating
+        that a more rational, abundant, and equitable world is not just possible, but achievable now.
+      </p>
 
-               {% include postbox.html %}
+      <div class="projects-grid">
 
-        {% endfor %} -->
+        <!-- Featured project -->
+        <div class="project-card featured">
+          <span class="project-tag tag-edu">Education & Awareness</span>
+          <h3 class="project-title">The RBE Atlas — A Living Encyclopedia of Post-Scarcity Ideas</h3>
+          <p class="project-desc">
+            An open, collaboratively maintained knowledge base mapping the ideas, thinkers, technologies,
+            and case studies that underpin a Resource Based Economy. Designed to be the definitive
+            entry point for anyone curious about alternatives to the monetary system — from students
+            and researchers to policymakers and activists. Built on open-source wiki infrastructure
+            with structured data layers and multilingual support.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-active"></div>
+              Active · Phase II
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
 
+        <!-- Community Tools -->
+        <div class="project-card">
+          <span class="project-tag tag-community">Community Tools</span>
+          <h3 class="project-title">CommonPool — Local Resource Sharing Network</h3>
+          <p class="project-desc">
+            A peer-to-peer platform enabling communities to map, share, and coordinate
+            access to physical resources — tools, land, skills, and space — without monetary exchange.
+            Piloting in Copenhagen with 3 neighbourhoods.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-active"></div>
+              Active · Pilot
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
+
+        <!-- Sustainability -->
+        <div class="project-card">
+          <span class="project-tag tag-sustain">Sustainability</span>
+          <h3 class="project-title">EcoBalance — Regenerative Land Stewardship Model</h3>
+          <p class="project-desc">
+            A systems model for calculating the ecological carrying capacity of a region
+            and aligning human activity within those thresholds. Open data, open methodology,
+            available for any municipality to adopt.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-dev"></div>
+              In Development
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
+
+        <!-- Education -->
+        <div class="project-card">
+          <span class="project-tag tag-edu">Education & Awareness</span>
+          <h3 class="project-title">Future Forward — Free RBE Curriculum for Schools</h3>
+          <p class="project-desc">
+            A modular, age-adapted curriculum introducing systems thinking, ecological literacy,
+            and the principles of a Resource Based Economy to students aged 12–18.
+            Freely licensed for any educator worldwide.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-active"></div>
+              Active · v1.2
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
+
+        <!-- Building -->
+        <div class="project-card">
+          <span class="project-tag tag-build">Building</span>
+          <h3 class="project-title">Circular Habitat — Open-Source Modular Housing Designs</h3>
+          <p class="project-desc">
+            A library of Fresco-inspired architectural designs for sustainable, modular, and
+            resource-efficient dwellings. All plans are freely downloadable and adaptable
+            for community self-build projects.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-dev"></div>
+              In Development
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
+
+        <!-- Community -->
+        <div class="project-card">
+          <span class="project-tag tag-community">Community Tools</span>
+          <h3 class="project-title">NeedsMet — Community Needs & Abundance Dashboard</h3>
+          <p class="project-desc">
+            A real-time dashboard for communities to surface unmet needs and available
+            surpluses — connecting people with food, materials, skills, and time through
+            a needs-first, rather than market-first, logic.
+          </p>
+          <div class="project-meta">
+            <div class="project-status">
+              <div class="status-dot dot-concept"></div>
+              Concept Stage
+            </div>
+            <a href="#" class="project-link">View Project →</a>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-</section>
+  <!-- ── Get Involved ── -->
+  <section id="involved">
+    <div class="container">
+      <p class="section-label">// 03 — Participation</p>
+      <h2 class="section-title">Shape the Experiment</h2>
+      <div class="divider"></div>
+      <p class="section-intro">
+        Resource Lab thrives on open collaboration. Whether you contribute code,
+        research, creative work, or simply spread the word — every contribution advances the mission.
+      </p>
 
-<!-- Pagination
-================================================== -->
-<div class="bottompagination">
-<div class="pointerup"><i class="fa fa-caret-up"></i></div>
-<span class="navigation" role="navigation">
-    {% include pagination.html %}
-</span>
-</div>
+      <div class="involved-grid">
+
+        <div class="involve-card">
+          <svg class="involve-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" stroke="#ccdcf5" stroke-width="1.5" opacity="0.4"/>
+            <path d="M20 44 L32 20 L44 44" stroke="#ccdcf5" stroke-width="1.5" fill="none"/>
+            <line x1="23" y1="37" x2="41" y2="37" stroke="#ccdcf5" stroke-width="1.5"/>
+          </svg>
+          <h3 class="involve-title">Contribute Research</h3>
+          <p class="involve-desc">
+            Help build the evidence base. Contribute studies, data, or analysis
+            that strengthens the case for resource-based alternatives.
+          </p>
+          <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        </div>
+
+        <div class="involve-card">
+          <svg class="involve-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" stroke="#ccdcf5" stroke-width="1.5" opacity="0.4"/>
+            <rect x="20" y="22" width="24" height="20" rx="2" stroke="#ccdcf5" stroke-width="1.5"/>
+            <line x1="26" y1="29" x2="38" y2="29" stroke="#ccdcf5" stroke-width="1.5"/>
+            <line x1="26" y1="34" x2="34" y2="34" stroke="#ccdcf5" stroke-width="1.5"/>
+          </svg>
+          <h3 class="involve-title">Build & Code</h3>
+          <p class="involve-desc">
+            All Resource Lab tools are open source. Join a project, raise issues,
+            or propose entirely new tools that serve the mission.
+          </p>
+          <a href="#" class="btn btn-secondary">View on GitHub</a>
+        </div>
+
+        <div class="involve-card">
+          <svg class="involve-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="30" stroke="#ccdcf5" stroke-width="1.5" opacity="0.4"/>
+            <circle cx="32" cy="26" r="8"  stroke="#ccdcf5" stroke-width="1.5"/>
+            <path d="M16 48 C16 38 48 38 48 48" stroke="#ccdcf5" stroke-width="1.5" fill="none"/>
+          </svg>
+          <h3 class="involve-title">Join the Community</h3>
+          <p class="involve-desc">
+            Connect with a global network of thinkers, makers, and advocates
+            working toward a post-scarcity future. Share ideas, find collaborators.
+          </p>
+          <a href="#contact" class="btn btn-secondary">Join Us</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Resources ── -->
+  <section id="resources">
+    <div class="container">
+      <p class="section-label">// 04 — Reading & Viewing</p>
+      <h2 class="section-title">Go Deeper</h2>
+      <div class="divider"></div>
+      <p class="section-intro">
+        Essential resources for understanding the Resource Based Economy — from Fresco's
+        foundational works to modern systems thinkers.
+      </p>
+
+      <div class="resources-grid">
+
+        <a href="https://www.thevenusproject.com" target="_blank" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Website</p>
+            <h4>The Venus Project</h4>
+            <p>Jacque Fresco's life work — the most comprehensive presentation of Resource Based Economy principles, designs, and vision.</p>
+          </div>
+        </a>
+
+        <a href="#" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Book</p>
+            <h4>The Best That Money Can't Buy — Jacque Fresco</h4>
+            <p>Fresco's definitive text on a world beyond politics, poverty, and war — a blueprint for an achievable future.</p>
+          </div>
+        </a>
+
+        <a href="https://www.zeitgeistmovie.com" target="_blank" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Documentary</p>
+            <h4>Zeitgeist: Moving Forward</h4>
+            <p>Peter Joseph's documentary exploring the failures of the monetary system and the vision of a resource-based alternative.</p>
+          </div>
+        </a>
+
+        <a href="#" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Book</p>
+            <h4>Designing the Future — Jacque Fresco</h4>
+            <p>An exploration of how modern science and technology, wisely applied, can create an equitable and sustainable global civilization.</p>
+          </div>
+        </a>
+
+        <a href="#" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Talk / Lecture</p>
+            <h4>Jacque Fresco at the University of Maryland</h4>
+            <p>One of Fresco's most complete recorded lectures — covering social design, human behaviour, and systemic change.</p>
+          </div>
+        </a>
+
+        <a href="#" class="resource-item">
+          <div class="resource-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="resource-text">
+            <p class="resource-type">Community</p>
+            <h4>The RBE Global Network</h4>
+            <p>A worldwide network of local groups, forums, and working teams advancing Resource Based Economy principles in their communities.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">// 05 — Connect</p>
+      <h2 class="section-title">Start a Conversation</h2>
+      <div class="divider"></div>
+
+      <div class="contact-inner">
+
+        <div>
+          <div class="newsletter-box">
+            <h3>Stay in the Loop</h3>
+            <p>Receive updates on new projects, collaborator calls, and developments in the RBE space. No noise — only signal.</p>
+            <div class="newsletter-row">
+              <input type="email" placeholder="your@email.com" />
+              <button class="btn btn-primary" style="white-space:nowrap">Subscribe</button>
+            </div>
+          </div>
+
+          <div class="contact-info">
+            <p>Resource Lab is an open initiative. Reach out to collaborate, share ideas, or ask questions about our work.</p>
+            <p>Email: <a href="mailto:kontakt@resourcelab.dk">kontakt@resourcelab.dk</a></p>
+            <p>Based in Copenhagen, Denmark — working globally.</p>
+            <div class="social-links">
+              <a href="#" class="social-link" title="Twitter/X">𝕏</a>
+              <a href="#" class="social-link" title="GitHub">GH</a>
+              <a href="#" class="social-link" title="LinkedIn">in</a>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form" onsubmit="return false;">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Full name" />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>I want to…</label>
+            <select>
+              <option value="">Select a reason</option>
+              <option>Collaborate on a project</option>
+              <option>Contribute research or content</option>
+              <option>Learn more about Resource Lab</option>
+              <option>Propose a new initiative</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us about yourself and what you have in mind…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send Message</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <p>
+        © 2026 Resource Lab · <a href="mailto:kontakt@resourcelab.dk">kontakt@resourcelab.dk</a>
+        · Free Source · Built with intention
+      </p>
+      <p style="margin-top:0.5rem; opacity:0.5;">
+        Inspired by the life and work of Jacque Fresco (1916–2017)
+      </p>
+    </div>
+  </footer>
+
+  <!-- ── Blueprint Canvas Script ── -->
+  <script>
+    const canvas = document.getElementById('blueprint-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, cx, cy, t = 0;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      cx = W / 2;
+      cy = H / 2;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Background fill
+      ctx.fillStyle = '#040d1a';
+      ctx.fillRect(0, 0, W, H);
+
+      const maxR = Math.max(W, H) * 0.72;
+
+      // ── Concentric circles (Fresco city rings) ──
+      const rings = [0.12, 0.22, 0.34, 0.46, 0.56, 0.64, 0.72];
+      rings.forEach((frac, i) => {
+        const r = maxR * frac;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.strokeStyle = i % 2 === 0
+          ? `rgba(204,220,245,${0.06 + i * 0.015})`
+          : `rgba(255,140,66,${0.04 + i * 0.008})`;
+        ctx.lineWidth = i % 2 === 0 ? 1.2 : 0.6;
+        ctx.setLineDash(i % 3 === 0 ? [6, 14] : []);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+
+      // ── Radial spokes ──
+      const spokeCount = 24;
+      for (let i = 0; i < spokeCount; i++) {
+        const angle = (Math.PI * 2 / spokeCount) * i + t * 0.0004;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(
+          cx + Math.cos(angle) * maxR * 0.75,
+          cy + Math.sin(angle) * maxR * 0.75
+        );
+        ctx.strokeStyle = `rgba(204,220,245,${i % 6 === 0 ? 0.1 : 0.035})`;
+        ctx.lineWidth = i % 6 === 0 ? 0.8 : 0.35;
+        ctx.stroke();
+      }
+
+      // ── Sector arcs (city district dividers) ──
+      const sectors = 8;
+      for (let i = 0; i < sectors; i++) {
+        const startAngle = (Math.PI * 2 / sectors) * i + t * 0.0002;
+        const endAngle   = startAngle + (Math.PI * 2 / sectors) * 0.6;
+        const r1 = maxR * 0.34;
+        const r2 = maxR * 0.56;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r1, startAngle, endAngle);
+        ctx.arc(cx, cy, r2, endAngle,   startAngle, true);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(204,220,245,${i % 2 === 0 ? 0.018 : 0.009})`;
+        ctx.fill();
+      }
+
+      // ── Rotating outer dashes ──
+      const dashRings = [0.46, 0.64];
+      dashRings.forEach((frac, di) => {
+        const r = maxR * frac;
+        const dashCount = 48 + di * 16;
+        for (let i = 0; i < dashCount; i++) {
+          const angle = (Math.PI * 2 / dashCount) * i + t * (di % 2 === 0 ? 0.0005 : -0.0003);
+          const ax = cx + Math.cos(angle) * r;
+          const ay = cy + Math.sin(angle) * r;
+          ctx.beginPath();
+          ctx.arc(ax, ay, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(204,220,245,0.35)`;
+          ctx.fill();
+        }
+      });
+
+      // ── Central core glow ──
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 0.12);
+      grd.addColorStop(0,   'rgba(204,220,245,0.14)');
+      grd.addColorStop(0.5, 'rgba(100,140,210,0.04)');
+      grd.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(cx, cy, maxR * 0.12, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      // ── Cross-hatch grid (blueprint feel) ──
+      ctx.strokeStyle = 'rgba(204,220,245,0.025)';
+      ctx.lineWidth = 0.5;
+      const gridStep = 60;
+      for (let x = 0; x < W; x += gridStep) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+      for (let y = 0; y < H; y += gridStep) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+
+      t++;
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  </script>
+
+</body>
+</html>
