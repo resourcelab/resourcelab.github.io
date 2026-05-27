@@ -57,6 +57,8 @@
       color: var(--cyan);
       text-decoration: none;
       text-transform: uppercase;
+      position: relative;
+      z-index: 102;
     }
 
     .nav-logo span { color: var(--gold); }
@@ -78,6 +80,52 @@
     }
 
     .nav-links a:hover { color: var(--cyan); }
+
+    /* ── Hamburger Button ── */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      padding: 0;
+      position: relative;
+      z-index: 102;
+      transition: border-color 0.25s;
+    }
+
+    .nav-toggle:hover { border-color: var(--cyan); }
+
+    .nav-toggle span {
+      display: block;
+      position: absolute;
+      left: 50%;
+      width: 20px;
+      height: 1.5px;
+      background: var(--cyan);
+      transform: translateX(-50%);
+      transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
+    }
+
+    .nav-toggle span:nth-child(1) { top: 14px; }
+    .nav-toggle span:nth-child(2) { top: 20px; }
+    .nav-toggle span:nth-child(3) { top: 26px; }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      top: 20px;
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      top: 20px;
+      transform: translateX(-50%) rotate(-45deg);
+    }
 
     /* ── Hero ── */
     #hero {
@@ -742,16 +790,115 @@
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.4rem; }
+      nav { padding: 0.9rem 1.5rem; }
+
+      .nav-toggle { display: block; }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(82vw, 340px);
+        background: rgba(4,13,26,0.97);
+        backdrop-filter: blur(18px);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 5rem 2.5rem 2.5rem;
+        gap: 0;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+        z-index: 101;
+        box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+      }
+
+      .nav-links.open { transform: translateX(0); }
+
+      .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links li:last-child { border-bottom: none; }
+
+      .nav-links a {
+        display: block;
+        padding: 1.1rem 0;
+        font-size: 0.95rem;
+        letter-spacing: 0.15em;
+        color: var(--text-main);
+      }
+
+      /* Body lock when menu open */
+      body.menu-open { overflow: hidden; }
+
+      /* Backdrop overlay */
+      .nav-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(4,13,26,0.6);
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 99;
+      }
+
+      .nav-backdrop.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      section { padding: 4.5rem 0; }
+
+      .container { padding: 0 1.5rem; }
+
+      .section-intro { margin-bottom: 2.5rem; }
+
       .about-grid,
       .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
       .about-visual { order: -1; }
-      .projects-grid { grid-template-columns: 1fr; }
+      .about-ring-svg { max-width: 280px; }
+      .projects-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+      .project-card { padding: 1.6rem; }
       .project-card.featured { grid-column: span 1; }
-      .involved-grid { grid-template-columns: 1fr; }
+      .involved-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+      .involve-card { padding: 1.8rem; }
       .resources-grid { grid-template-columns: 1fr; }
-      .stat-strip { grid-template-columns: repeat(2, 1fr); }
+      .stat-strip { grid-template-columns: repeat(2, 1fr); margin-top: 3.5rem; }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(1),
+      .stat-item:nth-child(2) { border-bottom: 1px solid var(--border); }
+      .stat-number { font-size: 1.6rem; }
+
+      .newsletter-box { padding: 1.8rem; }
+
+      .newsletter-row {
+        flex-direction: column;
+      }
+
+      .hero-cta { gap: 0.8rem; }
+      .btn { padding: 0.85rem 1.6rem; }
+
+      footer { padding: 2rem 0; }
+    }
+
+    @media (max-width: 480px) {
+      body { font-size: 16px; }
+      nav { padding: 0.8rem 1.1rem; }
+      .container { padding: 0 1.1rem; }
+      section { padding: 3.5rem 0; }
+      .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.3em; gap: 0.6rem; }
+      .hero-eyebrow::before,
+      .hero-eyebrow::after { width: 28px; }
+      .hero-cta { flex-direction: column; width: 100%; }
+      .hero-cta .btn { width: 100%; text-align: center; }
+      .stat-strip { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:last-child { border-bottom: none; }
+      .social-links { justify-content: center; }
     }
   </style>
 </head>
@@ -760,7 +907,18 @@
   <!-- ── Navigation ── -->
   <nav>
     <a href="#hero" class="nav-logo">Resource<span>Lab</span></a>
-    <ul class="nav-links">
+
+    <button class="nav-toggle"
+            id="nav-toggle"
+            aria-label="Toggle navigation menu"
+            aria-controls="nav-links"
+            aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#involved">Get Involved</a></li>
@@ -768,6 +926,8 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
+
+  <div class="nav-backdrop" id="nav-backdrop"></div>
 
   <!-- ── Hero ── -->
   <section id="hero">
@@ -1108,7 +1268,7 @@
           </div>
         </a>
 
-        <a href="#" class="resource-item">
+        <a href="https://www.thevenusproject.com/store/c/books/" target="_blank" class="resource-item">
           <div class="resource-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -1136,7 +1296,7 @@
           </div>
         </a>
 
-        <a href="#" class="resource-item">
+        <a href="https://files.thevenusproject.com/hotlink-ok/designing_the_future_ebook/Jacque%20Fresco%20-%20Designing%20the%20Future.pdf" target="_blank" class="resource-item">
           <div class="resource-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
@@ -1246,6 +1406,13 @@
   <!-- ── Footer ── -->
   <footer>
     <div class="container">
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-bottom:0.5rem;">
+        <svg width="14" height="18" viewBox="0 0 200 258" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="100,8 6,250 194,250" stroke="#6a8aaa" stroke-width="7" stroke-linejoin="round"/>
+          <polygon points="100,8 52,162 194,250" stroke="#6a8aaa" stroke-width="6" stroke-linejoin="round"/>
+          <polygon points="100,8 110,196 194,250" stroke="#ff8c42" stroke-width="5.5" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <p>
         © 2026 Resource Lab · <a href="mailto:kontakt@resourcelab.dk">kontakt@resourcelab.dk</a>
         · Free Source · Built with intention
@@ -1255,6 +1422,45 @@
       </p>
     </div>
   </footer>
+
+  <!-- ── Mobile Nav Toggle ── -->
+  <script>
+    (function () {
+      const toggle   = document.getElementById('nav-toggle');
+      const links    = document.getElementById('nav-links');
+      const backdrop = document.getElementById('nav-backdrop');
+      const body     = document.body;
+
+      function setMenu(open) {
+        toggle.setAttribute('aria-expanded', String(open));
+        links.classList.toggle('open', open);
+        backdrop.classList.toggle('open', open);
+        body.classList.toggle('menu-open', open);
+      }
+
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        setMenu(!isOpen);
+      });
+
+      backdrop.addEventListener('click', () => setMenu(false));
+
+      // Close menu when a link is clicked
+      links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => setMenu(false));
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') setMenu(false);
+      });
+
+      // Reset menu state when resizing back to desktop
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) setMenu(false);
+      });
+    })();
+  </script>
 
   <!-- ── Blueprint Canvas Script ── -->
   <script>
